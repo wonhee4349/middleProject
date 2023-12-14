@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 이 문서는 myBatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+
+<!DOCTYPE mapper 
+	 PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<!-- namespace 속성은 이곳에 작성된 SQL문을 JAVA에서 호출해서 사용할 때 같이 사용되는 이름이다. -->
+<mapper namespace="restaurant">
+
+	<sql id="dynamicCondition">
+	   <where>
+	       <if test="sword != null and sword neq '' ">
+	        rs_name like  '%'||#{sword}||'%'
+	       </if>
+	   </where>
+	</sql>
+	
+	<select id="getAllRestaurant" resultType="rsVo">
+		select * from restaurant
+	</select>
+	
+	<select id="restaurantDetails" resultType="rsVo" parameterType="String">
+		select * from restaurant where rs_no = #{data}
+	</select>
+	
+	<delete id="restaruantDelete" parameterType="String">
+		delete restaurant where rs_no = #{data}
+	</delete>
+	
+	<update id="restaruantUpdate" parameterType="rsVo">
+		update restaurant set
+			rs_name = #{rs_name}, rs_addr = #{rs_addr}, rs_tel = #{rs_tel},
+			rs_lat = #{rs_lat}, rs_long = #{rs_long}, rs_con = #{rs_con},
+			rs_date = sysdate
+		where rs_no = #{rs_no}
+	</update>
+	
+	<select id="getListCount" resultType="int" parameterType="Map">
+		select count(*) from restaurant <include refid="dynamicCondition"></include>
+		order by rs_no desc
+	</select>
+	
+	<select id="selectByPage" resultType="rsVo" parameterType="Map">
+		 select A.* from (
+		     select rownum as rnum, B.*  from (
+		         select * from restaurant
+		         <include refid="dynamicCondition"/>
+		         order by rs_no asc) B
+		         <![CDATA[
+		     where rownum <= #{endIndex} ) A 
+	 	 where A.rnum >=#{startIndex}
+	 	]]> 
+	</select>
+	
+	<select id="selectById" resultType="rsVo" parameterType="String">
+		select * from restaurant where rs_no=#{rs_no}
+	</select>
+	
+	<insert id="insertRestaurant" parameterType="rsVo">
+		insert into restaurant(rs_no, rs_name, rs_con, rs_addr, rs_tel, rs_lat, rs_long, rs_good,
+                  			rs_bad, rs_hit, rs_date, mg_no, origin_file_name, save_file_name)
+   		values('RS_23_' || LPAD((SEQ_RS.NEXTVAL), 3, '0'), #{rs_name}, #{rs_con}, #{rs_addr}, #{rs_tel}, #{rs_lat}, #{rs_long},
+               		0, 0, 0, sysdate, 'MG_23_001', #{origin_file_name}, #{save_file_name})
+	</insert>
+	
+	<update id="updateHit" parameterType="String">
+		update restaurant set rs_hit=rs_hit+1 where rs_no=#{rs_no}
+	</update>
+	
+	<update id="updateGood" parameterType="String">
+		update restaurant set rs_good=rs_good+1 where rs_no=#{rs_no}
+	</update>
+	
+	<update id="updateBad" parameterType="String">
+		update restaurant set rs_bad=rs_bad+1 where rs_no=#{rs_no}
+	</update>
+	
+</mapper>

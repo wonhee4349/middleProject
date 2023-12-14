@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="qa">
+
+
+
+
+
+
+ <insert id="insertQA" parameterType="qaVO">
+    INSERT INTO qa (qa_no, qa_title, qa_con, qa_date, qa_hit, qa_recon, mg_no, users_no)
+    VALUES ('QA_' || LPAD(SEQ_QA.NEXTVAL, 3, '0'), #{qa_title}, #{qa_con}, SYSDATE, 0, #{qa_recon}, #{mg_no}, #{users_no})
+  </insert>
+  
+
+<!-- 리스트 삭제 -->
+<delete id="listDelete" parameterType="String">
+	delete qa where qa_no = #{data}
+</delete>
+
+
+
+
+
+<select id="qaDetail" resultType="qaVO" parameterType="String">
+    SELECT qa_no, qa_title, qa_con
+    FROM qa
+    WHERE qa_no = #{qa_no}
+</select>
+
+
+<select id = "getAllQa" resultType="qaVO">
+		select a.qa_no, a.qa_title, a.qa_con, b.users_name, to_char(a.qa_date, 'YYYY/MM/DD') as qa_date from qa a, users b where a.users_no = b.users_no
+		order by a.qa_date desc
+</select> 
+
+
+
+
+
+
+</mapper>

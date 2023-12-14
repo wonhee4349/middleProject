@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 myBatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+<!--mybatis-config 추가하기 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--mapper namespace=> 다른 문서랑 중복 안되게 하기 -->
+<mapper namespace="notice">
+
+	<sql id="dynamicCondition">
+  	 	<where>
+       		<if test="sword != null and sword neq '' ">
+       			 tr_name like  '%'||#{sword}||'%'
+      	 	</if>
+  		 </where>
+	</sql>
+	
+
+	
+	<!--페이지 결과값  -->
+	<select id="selectByPage" resultType="notVo" parameterType="Map">
+	 select A.* from (
+	     select rownum as rnum, B.*  from (
+	         select * from notice
+	         <include refid="dynamicCondition"/>
+	         order by tr_no desc) B
+	         <![CDATA[
+	     where rownum <= #{endIndex} ) A 
+ 	 where A.rnum >=#{startIndex}
+ 	]]> 
+	</select>
+	
+
+
+	<!--공지사항 첫페이지 리스트 -->
+	<select id="noticeAll" resultType="notVo">
+		select to_char(not_date,'yyyy/mm/dd')as not_date,not_title,not_no, not_con from notice order by not_date DESC
+	</select>
+	
+	<!--공지사항 클릭시 상세정보  -->
+	<select id="noticeDetail" resultType="notVo"  parameterType="String">
+		select to_char(not_date,'yyyy/mm/dd')as not_date,not_title,not_no,not_con from notice where not_no=#{not_no}
+	</select>
+	
+
+	<!--공지사항 수정 -->
+	<update id="updateNot" parameterType="notVo">
+		update notice set 
+				not_title=#{not_title}, not_con=#{not_con}, not_date=sysdate
+			where not_no=#{not_no}
+	
+	</update>
+	
+	
+	<!--공지사항 등록 -->
+	<insert id="insertNot" parameterType="notVo">
+		insert into notice(
+			not_no,not_title,not_con,not_date,mg_no
+		)
+		values(
+			'not_23_' || LPAD(SEQ_NOT.NEXTVAL, 4, '0'),#{not_title},#{not_con},sysdate,#{mg_no}
+		)
+	</insert>
+	
+	<!--공지사항 삭제  -->
+	<delete id="deleteNot" parameterType="String">
+		delete notice where not_no = #{data}
+	</delete>
+
+
+
+
+
+
+
+
+
+
+	<!-- Map을 파라미터로 받아서 처리할 때의 변수명 역할을 Map의 key값으로 한다 파라미터로 가져온 값을 컬럼명 등의 자리에서 
+		사용할 경우에는 달러$ 기호를 사용해서 나타낸다. (예: ${변수명} 또는 ${key값} ) ( Key값 정보==> 회원 ID(memid), 
+		수정할 컬럼명(field), 수정할 데이터(data) ) -->
+
+
+
+
+
+</mapper>

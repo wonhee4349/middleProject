@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+
+.kw_table{}
+.kw_table th{background: #f3f3f3;color:#000;padding: 14px 4px;border-bottom: 1px solid #e3e3e3;}
+.kw_table tr{border-bottom:1px solid #eaecf1;}
+.kw_table td{padding:10px 4px;text-align: center;}
+
+
+
+.kw_table .num{position:absolute;left:15px;top:50%;width: 65px;font-size: 14px;color:#999;text-align:center;font-weight: 500;transform:translateY(-50%); transition: all 0.4s ease-out 0s;}
+.kw_table .num i{display:block;font-size: 40px;color: #dadada;line-height:1em;transition: all 0.4s ease-out 0s;font-weight: 700;margin-bottom: 3px;}
+.kw_table .num:before{content:''; display:block; position:absolute; right:-15px; top:50%; width:1px; height:30px; margin-top:-15px; background:#e5e5e5;}
+
+.kw_table02{
+    border: 1px solid #e1e1e1;
+}
+.kw_table02 th{color:#000;padding: 10px 4px;border-bottom: 1px solid #e3e3e3;font-weight: 300;}
+.kw_table02 tr{border-bottom:1px solid #eaecf1;}
+.kw_table02 td{padding:10px 4px;text-align: center;}
+.kw_table02 th.bg_gray{background: #f3f3f3;font-weight: 600;}
+.kw_table02 td.bg_gray2{overflow-y: scroll;width: 100%; height: 300px;}
+.kw_table02 td.content{height:500px;}
+.kw_table02 input{color:#000;padding: 10px 4px;border:none;font-weight: 300; width:100%;}
+.kw_table02 .con_input{width:300%; height: 400px; overflow-y:scorll; border:none;}
+.kw_table02 .con_input2{width:300%; height: 50px; overflow-y:scorll; border:none;}
+.blue_btn {
+    color: #fff;
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+
+
+.bottom_btn_wrap{float:right; margin-top:50px;}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: none;
+    padding: 7px 4px;
+    font-size: 15rem;
+    width: 100px;
+    border-radius: 5px;
+    border-radius: 10px;
+    margin: 3px;
+    line-height: 1.5;
+    border-radius: .35rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+}

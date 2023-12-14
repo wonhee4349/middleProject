@@ -1,0 +1,10 @@
+<svg width="85" height="17" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter x="-9.8%" y="-21.8%" width="119.5%" height="143.5%" filterUnits="objectBoundingBox" id="a">
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M343 138a5 5 0 1 0 0 10v4a2 2 0 0 1-2 2h-83V0h83a2 2 0 0 1 2 2v4a5 5 0 1 0 0 10v7a5 5 0 1 0 0 10v6a5 5 0 1 0 0 10v7a5 5 0 1 0 0 10v6a5 5 0 1 0 0 10v7a5 5 0 1 0 0 10v6a5 5 0 1 0 0 10v7a5 5 0 1 0 0 10v6z" filter="url(#a)" transform="translate(-258 -16)" fill="#3359CC" fill-rule="evenodd"/>
+</svg>

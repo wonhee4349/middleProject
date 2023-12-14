@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coupon">
+
+
+  <!--   <insert id="insertCoupon" parameterType="couponVO">
+        INSERT INTO COUPON (CP_NO, CP_NAME, CP_SDATE, CP_EDATE, CP_CON, CP_CODE, MG_NO)
+        VALUES (#{cpNo}, #{cpName}, #{cpSDate}, #{cpEDate}, #{cpCon}, #{cpCode}, #{mgNo})
+    </insert> -->
+    
+<insert id="insertCoupon" parameterType="couponVO">
+    INSERT INTO COUPON (CP_NAME, CP_SDATE, CP_EDATE, CP_CON, CP_CODE, MG_NO)
+    VALUES (#{cp_name}, #{cp_SDate}, #{cp_EDate}, #{cp_Con}, #{cp_Code}, #{mg_No})
+</insert>
+
+
+
+<insert id="insertCouponUse" parameterType="couponUseVO">
+	insert into coupon_use (cp_no, users_no) values (#{cp_no}, #{users_no})
+</insert>
+
+
+<select id="getAllCoupon" resultType="couponVO">
+    SELECT CP_NO, CP_NAME, CP_SDATE, CP_EDATE, CP_CON, CP_CODE, MG_NO
+    FROM COUPON
+</select>
+
+
+
+<!-- <select id="getCouponByUserId" resultType="couponVO" parameterType="String">
+    SELECT a.cp_name, a.cp_con, a.cp_sdate, a.cp_edate
+FROM coupon a, users b, coupon_use c
+WHERE a.cp_no = c.cp_no AND b.users_no = c.users_no
+
+
+AND b.users_no = #{data}
+</select>	
+
+ -->
+ 
+ 
+ 
+<!--  
+
+<select id="getCouponByUserId" resultType="couponVO" parameterType="String">
+    SELECT a.cp_name, a.cp_con, a.cp_sdate, a.cp_edate
+    FROM coupon a, users b, coupon_use c
+    WHERE a.cp_no = c.cp_no AND b.users_no = c.users_no
+    AND b.users_no =  (select users_no from users where users_id=#{users_id})
+</select>
+ -->
+
+<select id="getCouponByUserId" resultType="couponVO" parameterType="String">
+    SELECT a.cp_name, a.cp_con, a.cp_sdate, a.cp_edate
+    FROM coupon a, users b, coupon_use c
+    WHERE a.cp_no = c.cp_no AND b.users_no = c.users_no
+    AND b.users_no =  (select users_no from users where users_id=#{users_id})
+</select>
+
+<select id="getUserInfo" parameterType="String" resultType="memVo">
+	select * from users where users_id=#{users_id}
+</select>
+
+</mapper>

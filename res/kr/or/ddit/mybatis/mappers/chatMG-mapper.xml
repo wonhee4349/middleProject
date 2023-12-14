@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chat">
+
+<sql id="dynamicCondition">
+   <where>
+       <if test="sword != null and sword neq '' ">
+        cb_no like  '%'||#{sword}||'%' 
+       </if>
+   </where>
+</sql>
+
+<!-- 모든 결과 출력 -->
+<select id="chatAllList" resultType="chatVO" parameterType="String">
+	select * from chatbot <include refid="dynamicCondition"></include>
+	order by cb_no desc
+</select>
+
+<!-- chatbot테이블 모든 결과값의 갯수 출력 -->
+<select id="chatListCount" resultType="int" parameterType="Map">
+	select count(*) from chatbot <include refid="dynamicCondition"></include>
+</select>
+
+
+<!-- 페이지 결과값 출력 -->
+<select id="chatSelectByPage" resultType="chatVO" parameterType="Map">
+	 select A.* from (
+	     select rownum as rnum, B.*  from (
+	         select * from chatbot
+	         <include refid="dynamicCondition"/>
+	         order by cb_no desc) B
+	         <![CDATA[
+	     where rownum <= #{endIndex} ) A 
+ 	 where A.rnum >=#{startIndex}
+ ]]> 
+</select>
+
+<!-- detail 출력 -->
+<select id="chatSelectById" resultType="chatVO" parameterType="String">
+	select * from chatbot where cb_no=#{cb_no}
+</select>
+
+<!-- 질문 삭제 -->
+<delete id="chatDelete" parameterType="String">
+	delete chatbot where cb_no = #{cb_no}
+</delete>
+
+<!-- 질문 등록 -->
+<insert id="chatInsert" parameterType="chatVO">
+	insert into chatbot(CB_NO, CB_CON, CB_RP, MG_NO)
+	values('CB_23_' || LPAD((SEQ_CB.NEXTVAL), 3, '0'), #{cb_con}, #{cb_rp}, 'MG_23_001')
+</insert>
+</mapper>
+
+
+
+
